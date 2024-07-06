@@ -1,9 +1,10 @@
-import { Outlet, createBrowserRouter } from 'react-router-dom'
+import { Navigate, Outlet, createBrowserRouter } from 'react-router-dom'
 import Home from './pages/home/Home'
 import Heading from './pages/login/Heading'
 import Login from './pages/login/Login'
 import Signup from './pages/signup/Signup'
 import { Toaster } from 'react-hot-toast'
+import { useAuthContext } from '../context/AuthContext'
 
 function App() {
   return (
@@ -18,6 +19,21 @@ function App() {
   )
 }
 
+const HomeConditional = () => {
+    const authContext = useAuthContext();
+    return authContext.authUser ? <Home /> : <Navigate to="/login" />
+}
+
+const LoginConditional = () => {
+    const authContext = useAuthContext();
+    return authContext.authUser ? <Navigate to="/" /> : <Login />
+}
+
+const SignUpConditional = () => {
+    const authContext = useAuthContext();
+    return authContext.authUser ? <Navigate to="/" /> : <Signup />
+}
+
 
 const appRouter = createBrowserRouter([
     {
@@ -26,15 +42,15 @@ const appRouter = createBrowserRouter([
         children: [
             {
                 path: "/",
-                element: <Home />
+                element: <HomeConditional />
             },
             {
                 path: "/login",
-                element: <Login />
+                element: <LoginConditional />
             },
             {
                 path: "/signup",
-                element: <Signup />
+                element: <SignUpConditional />
             }
         ]
     }

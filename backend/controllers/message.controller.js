@@ -9,7 +9,7 @@ export const sendMessage = async (req, res) => {
         const senderId = req.user._id;
 
         let conversation = await Conversation.findOne({
-            participants: [senderId, receiverId]
+            participants: {$all: [senderId, receiverId]}
         })
 
         if(!conversation){
@@ -44,11 +44,16 @@ export const getMessages = async (req, res) => {
     const activeScreenUserId = req.params.id;
 
     const conversation = await Conversation.findOne({
-        participants: [currentUserId, activeScreenUserId]
+        participants: {$all: [currentUserId, activeScreenUserId]}
     }).populate("messages"); // this will populate the actual message object from Message collection w.r.t messageId
 
+    if(!conversation){
+        return res.status(200).json({
+            messages: []
+        })
+    }
     const messages = conversation.messages.map(message => {
-        return message.message;
+        return message
     })
     res.status(200).json({
         messages

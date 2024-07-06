@@ -18,7 +18,8 @@ app.use(cors({
     origin: 'http://localhost:5173', // Replace with your frontend URL
     methods: ['GET', 'POST'], // Specify allowed HTTP methods
     allowedHeaders: ['Content-Type'], // Allow specific headers
-  }));
+    credentials: true
+}));
 
 app.get("/", (req, res) => {
     res.send("Hello world!!")

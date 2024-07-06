@@ -1,7 +1,9 @@
-import React, { useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import React, { useContext, useState } from 'react'
+import { Link } from 'react-router-dom'
 import { signUpUser } from './signUpUser';
 import BeatLoader from "react-spinners/BeatLoader";
+import { useAuthContext } from '../../../context/AuthContext';
+import toast from 'react-hot-toast';
 
 const Signup = () => {
 
@@ -14,7 +16,8 @@ const Signup = () => {
     });
     const [fieldErrors, setFieldErrors] = useState({});
     const [isLoading, setIsLoading] = useState(false);
-    const navigate = useNavigate();
+
+    const authContext = useAuthContext();
 
     const validateBeforeSubmit = () => {
         let errorObj = {};
@@ -50,19 +53,18 @@ const Signup = () => {
 
         setFieldErrors(errorObj);
 
-        if(Object.keys(errorObj).length === 0){
-            return true
-        }
-        return false;
+        return Object.keys(errorObj).length === 0;
     }
 
     const registerUser = async (eventObj) => {
         eventObj.preventDefault();
         const isValidForm = validateBeforeSubmit(inputs);
         if(isValidForm){
-            setIsLoading(true);
-            const isValidResponse = await signUpUser(inputs, setIsLoading);
+            const {isValidResponse, response} = await signUpUser(inputs, setIsLoading);
             if(isValidResponse){
+                localStorage.setItem("currentUser", JSON.stringify(response));
+                authContext.setAuthUser(response);
+                toast.success(`User created successfully!!`);
                 setInputs({
                     fullName: "",
                     username: "",
@@ -70,8 +72,11 @@ const Signup = () => {
                     confirmPassword: "",
                     gender: ""
                 });
-                navigate("/");
+            } else{
+                toast.error(response.error);
             }
+        } else {
+            toast.error("Please correct all the errors and try again.")
         }
     }
 
@@ -87,22 +92,22 @@ const Signup = () => {
             <form className='flex flex-col' onSubmit={registerUser} onChange={changeHandler}>
                 <div className='flex flex-col'>
                     <label className='mt-3 mb-1 font-bold'>Full Name</label>
-                    <input className='p-2 mb-2' type="text" placeholder='Enter your full name' name="fullName" value={inputs.fullName}/>
+                    <input className='p-2 mb-2' type="text" placeholder='Enter your full name' name="fullName"/>
                     {fieldErrors.fullName && <p className='text-red-500'>{fieldErrors.fullName}</p>}
                 </div>
                 <div className='flex flex-col'>
                     <label className='mt-3 mb-1 font-bold'>Username</label>
-                    <input className='p-2 mb-2' type="text" placeholder='Enter your username' name="username" value={inputs.username}/>
+                    <input className='p-2 mb-2' type="text" placeholder='Enter your username' name="username"/>
                     {fieldErrors.username && <p className='text-red-500'>{fieldErrors.username}</p>}
                 </div>
                 <div className='flex flex-col'>
                     <label className='mt-3 mb-1 font-bold'>Password</label>
-                    <input className='p-2 mb-2' type="password" placeholder='Enter your password' name="password" value={inputs.password}/>
+                    <input className='p-2 mb-2' type="password" placeholder='Enter your password' name="password" />
                     {fieldErrors.password && <p className='text-red-500'>{fieldErrors.password}</p>}
                 </div>
                 <div className='flex flex-col'>
                     <label className='mt-3 mb-1 font-bold'>Confirm Password</label>
-                    <input className='p-2 mb-2' type="password" placeholder='Confirm your password' name="confirmPassword" value={inputs.confirmPassword}/>
+                    <input className='p-2 mb-2' type="password" placeholder='Confirm your password' name="confirmPassword" />
                     {fieldErrors.confirmPassword && <p className='text-red-500'>{fieldErrors.confirmPassword}</p>}
                 </div>
                 <div className='flex flex-col'>
