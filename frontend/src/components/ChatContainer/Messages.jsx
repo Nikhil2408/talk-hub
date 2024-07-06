@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react'
+import React, {useEffect, useState, useRef} from 'react'
 import Message from './Message'
 import { useUserContext } from '../../../context/UserContext';
 import MessagesShimmer from '../Shimmers/MessagesShimmer';
@@ -8,6 +8,7 @@ import { useGetNewMessage } from '../hooks/useGetNewMessage';
 const Messages = () => {
     const [isLoading, setIsLoading] = useState(false);
     const {selectedConversation, messages, setMessages} = useUserContext();
+    const messageRef = useRef();
     useGetNewMessage();
     useEffect(() => {
         const getMessages = async () => { 
@@ -29,10 +30,19 @@ const Messages = () => {
         if(selectedConversation?._id){
             getMessages();
         }
-    }, [selectedConversation?._id])
+    }, [selectedConversation?._id]);
+
+    useEffect(() => {
+        if (messageRef.current) {
+            messageRef.current.scrollTo({
+                top: messageRef.current.scrollHeight,
+                behavior: 'smooth'
+            });
+        }
+    }, [messageRef]);
 
     return (
-        <div className='flex flex-col overflow-auto flex-1'>
+        <div className='flex flex-col overflow-auto flex-1' ref={messageRef}>
             {isLoading && Array(4).fill().map((el, index) => <MessagesShimmer index = {index}/>)}
             {!isLoading && messages.length === 0 && <StartConversation />}
             {!isLoading && messages.length > 0 &&
