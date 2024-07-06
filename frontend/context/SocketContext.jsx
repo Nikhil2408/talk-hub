@@ -16,7 +16,7 @@ const SocketContextProvider = ({children}) => {
 
     useEffect(() => {
         if(authUser){
-            const socketConnection = io("http://localhost:8000", {
+            const socketConnection = io("https://talk-hub-gefm.onrender.com", {
                 query: {
                     userId: authUser._id
                 }
