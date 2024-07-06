@@ -13,16 +13,15 @@ dotenv.config();
 const PORT = process.env.PORT || 5000;
 
 const __dirname = path.resolve();
-const allowedOrigins = ['http://localhost:5173', 'https://talk-hub-gefm.onrender.com'];
 
 app.use(express.json());
 app.use(cookieParser());
-app.use(cors({
-    origin: ["https://talk-hub-gefm.onrender.com"],
-    methods: ['GET', 'POST'], // Specify allowed HTTP methods
-    allowedHeaders: ['Content-Type'], // Allow specific headers
-    credentials: true
-}));
+// app.use(cors({
+//     origin: ["https://talk-hub-gefm.onrender.com"],
+//     methods: ['GET', 'POST'], // Specify allowed HTTP methods
+//     allowedHeaders: ['Content-Type'], // Allow specific headers
+//     credentials: true
+// }));
 
 app.use("/api/auth", authRoutes);
 app.use("/api/messages", messageRoutes);
