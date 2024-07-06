@@ -13,7 +13,7 @@ const Users = () => {
         const getUsers = async () => {
             setIsLoading(true);
             try {
-                const responseObj = await fetch("http://localhost:8000/api/users", {
+                const responseObj = await fetch("/api/users", {
                     method: "GET",
                     headers: {"Content-Type": "application/json"},
                     credentials: "include"

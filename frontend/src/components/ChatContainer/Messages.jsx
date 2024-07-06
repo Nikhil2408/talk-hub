@@ -13,7 +13,7 @@ const Messages = () => {
         const getMessages = async () => { 
             setIsLoading(true);
             try {
-                const responseObj = await fetch(`http://localhost:8000/api/messages/${selectedConversation?._id}`, {
+                const responseObj = await fetch(`/api/messages/${selectedConversation?._id}`, {
                     method: 'GET',
                     headers: {"Content-Type": "application/json"},
                     credentials: "include"

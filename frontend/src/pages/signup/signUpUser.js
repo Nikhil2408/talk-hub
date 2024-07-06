@@ -3,7 +3,7 @@ import toast from "react-hot-toast";
 export const signUpUser = async ({fullName, username, password, confirmPassword, gender}, setIsLoading) => {
     setIsLoading(true);
     try {
-        const responseObj = await fetch("http://localhost:8000/api/auth/signup", {
+        const responseObj = await fetch("/api/auth/signup", {
             method: "POST",
             headers: {"Content-Type": "application/json"},
             body: JSON.stringify({fullName, username, password, confirmPassword, gender}),
