@@ -1,7 +1,6 @@
 import React, {useState} from 'react'
 import SideBar from '../../components/SideBar/SideBar'
 import ChatContainer from '../../components/ChatContainer/ChatContainer'
-import { useUserContext } from '../../../context/UserContext'
 
 const Home = () => {
 

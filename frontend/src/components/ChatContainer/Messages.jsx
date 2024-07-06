@@ -3,11 +3,12 @@ import Message from './Message'
 import { useUserContext } from '../../../context/UserContext';
 import MessagesShimmer from '../Shimmers/MessagesShimmer';
 import StartConversation from './StartConversation';
+import { useGetNewMessage } from '../hooks/useGetNewMessage';
 
 const Messages = () => {
     const [isLoading, setIsLoading] = useState(false);
     const {selectedConversation, messages, setMessages} = useUserContext();
-
+    useGetNewMessage();
     useEffect(() => {
         const getMessages = async () => { 
             setIsLoading(true);
