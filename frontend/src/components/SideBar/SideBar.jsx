@@ -5,9 +5,9 @@ import Logout from './Logout';
 
 const SideBar = () => {
   return (
-    <div className='flex flex-col mx-2 p-2 shadow-blue-600 shadow-lg w-[30%]'>
+    <div className='flex flex-col shadow-lg border rounded-md'>
         <Search />
-        <hr className='text-gray-300'/>
+        <hr className='border-t border-gray-700'/>
         <Users />
         <Logout />
     </div>

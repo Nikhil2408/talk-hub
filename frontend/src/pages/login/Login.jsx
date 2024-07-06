@@ -48,7 +48,7 @@ const Login = () => {
     }
 
     return (
-        <div className='flex flex-col border border-white rounded-md p-8 w-[30%]'>
+        <div className='flex flex-col border border-white rounded-md p-8'>
             <h1 className="text-blue-600 mx-auto text-2xl mb-4">Login To Chat</h1>
             <form className='flex flex-col' onChange={changeHandler} onSubmit={handleLoginUser}>
                 <div className='flex flex-col'>
@@ -61,8 +61,8 @@ const Login = () => {
                     <input className='p-2 mb-2' type="password" placeholder='Enter your password' name="password"/>
                     {fieldErrors.password && <p className='text-red-500'>{fieldErrors.password}</p>}
                 </div>
-                <button className='text-white bg-blue-700 p-2 my-2' type="submit">
-                    {isLoading ? <BeatLoader color='#35a3e3'/> : "Login"}
+                <button className='text-white bg-blue-700 p-2 my-2 flex items-center justify-center' type="submit">
+                    {isLoading ? <BeatLoader color='#FFFFFF '/> : "Login"}
                 </button>
             </form>
             <p className='mt-2'>Don't have an account? <Link to="/signup" className='text-blue-300 hover:underline'>Sign Up</Link></p>

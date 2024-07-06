@@ -87,7 +87,7 @@ const Signup = () => {
     }
 
     return (
-        <div className='flex flex-col border border-white rounded-md p-8  w-[30%]'>
+        <div className='flex flex-col border border-white rounded-md p-8 mb-8'>
             <h1 className="text-blue-600 mx-auto text-2xl mb-4">SignUp</h1>
             <form className='flex flex-col' onSubmit={registerUser} onChange={changeHandler}>
                 <div className='flex flex-col'>

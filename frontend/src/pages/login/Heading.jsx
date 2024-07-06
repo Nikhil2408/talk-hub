@@ -2,8 +2,8 @@ import React from 'react'
 
 const Heading = () => {
   return (
-    <div>
-        <h1 className='text-4xl mb-8 italic'>Talk <span className='text-red-700'>Hub</span></h1>
+    <div className='mb-8'>
+        <h1 className='text-4xl italic flex justify-center text-center'>Talk <span className='text-red-700'>Hub</span></h1>
     </div>
   )
 }

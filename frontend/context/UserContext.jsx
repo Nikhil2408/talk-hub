@@ -10,7 +10,8 @@ const UserContextProvider = ({children}) => {
     const [users, setUsers] = useState([]);
     const [selectedConversation, setSelectedConversation] = useState(null);
     const [messages, setMessages] = useState([]);
-    return <UserContext.Provider value={{users, setUsers, selectedConversation, setSelectedConversation, messages, setMessages}}>
+    const [filteredUsers, setFilteredUsers] = useState([]);
+    return <UserContext.Provider value={{users, setUsers, selectedConversation, setSelectedConversation, messages, setMessages, filteredUsers, setFilteredUsers}}>
         {children}
     </UserContext.Provider>
 }

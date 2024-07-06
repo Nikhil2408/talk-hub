@@ -8,7 +8,7 @@ import { useAuthContext } from '../context/AuthContext'
 
 function App() {
   return (
-    <div className='flex flex-col items-center justify-center mt-10'>
+    <div className='flex flex-col items-center justify-center mt-10 '>
         <Heading />
         <Outlet />
         <Toaster

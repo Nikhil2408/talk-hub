@@ -7,7 +7,7 @@ import toast from 'react-hot-toast';
 const Users = () => {
 
     const [isLoading, setIsLoading] = useState(false);
-    const {users, setUsers} = useUserContext();
+    const {users, setUsers, filteredUsers, setFilteredUsers} = useUserContext();
 
     useEffect(() => {
         const getUsers = async () => {
@@ -20,6 +20,7 @@ const Users = () => {
                 });
                 const response = await responseObj.json();
                 setUsers(response);
+                setFilteredUsers(response);
             } catch (error) {
                 toast.error("Something went wrong!! Please refresh your page");
             } finally{
@@ -30,16 +31,16 @@ const Users = () => {
     }, [])
 
     return (
-        <div className='flex flex-col overflow-auto'>
+        <div className='flex flex-col overflow-auto flex-1'>
             {
                 isLoading
                 ?
                 <div className='flex justify-center items-center mt-4'>
-                    <BeatLoader color='#35a3e3'/>
+                    <BeatLoader color='#FFFFFF'/>
                 </div>
                 :
-                users && users.map(user => {
-                    return <User key={user._id} user = {user} />
+                filteredUsers && filteredUsers.map((user, index) => {
+                    return <User key={user._id} user = {user} lastIndex={index === users.length - 1}/>
                 })
             }
         </div>
