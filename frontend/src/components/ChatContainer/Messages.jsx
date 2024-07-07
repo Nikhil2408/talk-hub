@@ -39,7 +39,7 @@ const Messages = () => {
                 behavior: 'smooth'
             });
         }
-    }, [messageRef, messages.length]);
+    }, [messageRef]);
 
     return (
         <div className='flex flex-col overflow-auto flex-1' ref={messageRef}>
