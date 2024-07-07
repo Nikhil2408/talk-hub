@@ -1,18 +1,39 @@
-import React, { useContext, useState } from "react";
-
+import React, { useContext, useEffect, useState } from "react";
+import toast from "react-hot-toast";
 
 const AuthContext = React.createContext();
 
 export const useAuthContext = () => {
-    return useContext(AuthContext);
-}
+  return useContext(AuthContext);
+};
 
-const AuthContextProvider = ({children}) => {
-    const [authUser, setAuthUser] = useState(JSON.parse(localStorage.getItem("currentUser")) || null);
-    return <AuthContext.Provider value={{authUser, setAuthUser}}>
-        {children}
+const AuthContextProvider = ({ children }) => {
+  const [authUser, setAuthUser] = useState(
+    JSON.parse(localStorage.getItem("currentUser")) || null
+  );
+
+  useEffect(() => {
+    const getAuthUser = async () => {
+      try {
+        const responseObj = await fetch("/api/auth", {
+          method: "GET",
+          headers: { "Content-Type": "application/json" },
+          credentials: "include",
+        });
+        const response = await responseObj.json();
+        setAuthUser(response);
+      } catch (error) {
+        toast.error("Failed to fetch auth User details");
+      }
+    };
+
+    getAuthUser();
+  }, []);
+  return (
+    <AuthContext.Provider value={{ authUser, setAuthUser }}>
+      {children}
     </AuthContext.Provider>
-}
-
+  );
+};
 
 export default AuthContextProvider;

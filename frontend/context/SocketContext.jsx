@@ -2,42 +2,43 @@ import React, { useContext, useEffect, useState } from "react";
 import { useAuthContext } from "./AuthContext";
 import io from "socket.io-client";
 
-
 const SocketContext = React.createContext();
 
 export const useSocketContext = () => {
-    return useContext(SocketContext);
-}
+  return useContext(SocketContext);
+};
 
-const SocketContextProvider = ({children}) => {
-    const [socket, setSocket] = useState(null);
-    const [onlineUsers, setOnlineUsers] = useState([]);
-    const {authUser} = useAuthContext();
+const SocketContextProvider = ({ children }) => {
+  const [socket, setSocket] = useState(null);
+  const [onlineUsers, setOnlineUsers] = useState([]);
+  const { authUser } = useAuthContext();
 
-    useEffect(() => {
-        if(authUser){
-            const socketConnection = io("https://talk-hub-gefm.onrender.com", {
-                query: {
-                    userId: authUser._id
-                }
-            });
-            setSocket(socketConnection);
-            socketConnection.on("getOnlineUsers", (onlineUsers) => {
-                setOnlineUsers(onlineUsers);
-            })
-            return () => socketConnection.close();
-        } else{
-            if(socket){
-                socket.close();
-                setSocket(null);
-            }
-        }
-    }, [authUser])
+  // http://localhost:8000
+  useEffect(() => {
+    if (authUser) {
+      const socketConnection = io("https://talk-hub-gefm.onrender.com", {
+        query: {
+          userId: authUser._id,
+        },
+      });
+      setSocket(socketConnection);
+      socketConnection.on("getOnlineUsers", (onlineUsers) => {
+        setOnlineUsers(onlineUsers);
+      });
+      return () => socketConnection.close();
+    } else {
+      if (socket) {
+        socket.close();
+        setSocket(null);
+      }
+    }
+  }, [authUser]);
 
-    return <SocketContext.Provider value = {{socket, onlineUsers}}>
-        {children}
+  return (
+    <SocketContext.Provider value={{ socket, onlineUsers }}>
+      {children}
     </SocketContext.Provider>
-}
+  );
+};
 
-
-export default SocketContextProvider
+export default SocketContextProvider;
