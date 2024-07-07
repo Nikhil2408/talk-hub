@@ -30,7 +30,7 @@ const User = ({ user, lastIndex, isFriend }) => {
   return (
     <>
       <div
-        className={`flex flex-col items-center gap-2 px-2 py-4 sm:flex-row ${
+        className={`flex flex-row items-center gap-2 px-2 py-4 ${
           isFriend
             ? "hover:bg-blue-400 hover:text-black hover:cursor-pointer"
             : ""
@@ -57,7 +57,7 @@ const User = ({ user, lastIndex, isFriend }) => {
                 : "hover:bg-yellow-500"
             }`}
             onClick={() => handleAddFriend(user._id)}
-            disabled={isFriendRequestSent}
+            disabled={isFriendRequestSent || user.alreadySent}
           >
             {isLoading && <BeatLoader color="#FFFFFF" />}
             {!isLoading && (isFriendRequestSent || user.alreadySent)

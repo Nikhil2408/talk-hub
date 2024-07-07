@@ -6,7 +6,7 @@ import NotificationBell from "../../components/SideBar/NotificationBell";
 
 const Home = () => {
   return (
-    <div className="flex flex-col items-center w-screen">
+    <div className="flex flex-col items-center w-screen mb-10">
       <div className="flex justify-center items-center text-center text-wrap">
         <h1 className="mb-4 mx-2 text-xl">Welcome To Chat Room</h1>
         <NotificationBell />
