@@ -26,9 +26,10 @@ const AuthContextProvider = ({ children }) => {
         toast.error("Failed to fetch auth User details");
       }
     };
-
+    if (authUser) {
     getAuthUser();
-  }, []);
+    }
+  }, [authUser]);
   return (
     <AuthContext.Provider value={{ authUser, setAuthUser }}>
       {children}
