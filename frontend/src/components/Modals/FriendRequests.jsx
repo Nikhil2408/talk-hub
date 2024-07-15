@@ -4,8 +4,10 @@ import BeatLoader from "react-spinners/BeatLoader";
 
 const FriendRequests = ({ friendRequests }) => {
   const [isLoading, setIsLoading] = useState(false);
-  const handleAcceptRequest = (acceptFriendUserId) => {
-    acceptFriend(acceptFriendUserId, setIsLoading);
+  const [friendRequestAccepted, setFriendRequestAccepted] = useState(false);
+  const handleAcceptRequest = async (acceptFriendUserId) => {
+    const isAccpeted = await acceptFriend(acceptFriendUserId, setIsLoading);
+    setFriendRequestAccepted(isAccpeted);
   };
 
   return (
@@ -15,35 +17,35 @@ const FriendRequests = ({ friendRequests }) => {
           {friendRequests.length !== 0 ? (
             friendRequests.map((friendRequest) => {
               return (
-                <>
+                <div className="border flex justify-evenly">
                   <p className="py-4">{friendRequest.fullName}</p>
                   <button
+                    className={`flex items-center  border px-2 my-2 rounded-full text-black ${
+                      friendRequestAccepted
+                        ? "bg-gray-700 text-white cursor-not-allowed"
+                        : "bg-yellow-400 hover:bg-yellow-500"
+                    }`}
+                    disabled={friendRequestAccepted}
                     onClick={() => handleAcceptRequest(friendRequest._id)}
                   >
-                    {isLoading ? (
-                      <BeatLoader color="#FFFFFF" />
-                    ) : (
-                      "Accept Friend"
-                    )}
+                    {isLoading && <BeatLoader color="#FFFFFF" />}
+                    {!isLoading && friendRequestAccepted
+                      ? "Accepted"
+                      : "Accept Friend"}
                   </button>
-                  <div className="modal-action">
-                    <form method="dialog">
-                      <button className="btn">Close</button>
-                    </form>
-                  </div>
-                </>
+                </div>
               );
             })
           ) : (
             <div>
               <p>No new friend requests</p>
-              <div className="modal-action">
-                <form method="dialog">
-                  <button className="btn">Close</button>
-                </form>
-              </div>
             </div>
           )}
+          <div className="modal-action">
+            <form method="dialog">
+              <button className="btn">Close</button>
+            </form>
+          </div>
         </div>
       </dialog>
     </div>

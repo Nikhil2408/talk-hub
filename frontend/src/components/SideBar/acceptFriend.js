@@ -13,6 +13,7 @@ export const acceptFriend = async (acceptFriendUserId, setIsLoading) => {
     );
     await responseObj.json();
     toast.success("Friend Request Accept");
+    return true;
   } catch (error) {
     toast.error(error.error);
   } finally {

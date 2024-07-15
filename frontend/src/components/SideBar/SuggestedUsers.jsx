@@ -41,7 +41,7 @@ const SuggestedUsers = () => {
   }, [authUser]);
 
   return (
-    <div className="flex flex-col overflow-auto flex-1 border my-4 w-[90%] sm:w-[40%]">
+    <div className="flex flex-col flex-1 border my-4 w-[90%] sm:w-[40%]">
       <h3 className="self-center text-lg my-4 font-bold">Suggested Users</h3>
       <hr className="border-t border-gray-700" />
       {isLoading ? (
@@ -49,16 +49,18 @@ const SuggestedUsers = () => {
           <BeatLoader color="#FFFFFF" />
         </div>
       ) : (
-        users &&
-        users.map((user, index) => {
-          return (
-            <User
-              key={user._id}
-              user={user}
-              lastIndex={index === users.length - 1}
-            />
-          );
-        })
+        <div className="overflow-auto h-[300px]">
+          {users &&
+            users.map((user, index) => {
+              return (
+                <User
+                  key={user._id}
+                  user={user}
+                  lastIndex={index === users.length - 1}
+                />
+              );
+            })}
+        </div>
       )}
     </div>
   );

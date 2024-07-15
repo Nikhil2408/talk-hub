@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import toast from "react-hot-toast";
+import { useUserContext } from "./UserContext";
 
 const AuthContext = React.createContext();
 
@@ -12,6 +13,8 @@ const AuthContextProvider = ({ children }) => {
     JSON.parse(localStorage.getItem("currentUser")) || null
   );
 
+  const { setFilteredUsers } = useUserContext();
+
   useEffect(() => {
     const getAuthUser = async () => {
       try {
@@ -22,6 +25,7 @@ const AuthContextProvider = ({ children }) => {
         });
         const response = await responseObj.json();
         setAuthUser(response);
+        setFilteredUsers(response.friends);
       } catch (error) {
         toast.error("Failed to fetch auth User details");
       }
