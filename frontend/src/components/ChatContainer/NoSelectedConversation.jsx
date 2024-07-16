@@ -6,7 +6,7 @@ const NoSelectedConversation = () => {
 
   return (
     <div className="flex flex-col justify-center items-center flex-1">
-      <h2>Welcome {authUser.fullName}</h2>
+      <h2>Welcome {authUser.fullName} 👋 </h2>
       {authUser.friends.length === 0 ? (
         <h3>Add friends to start messaging them</h3>
       ) : (

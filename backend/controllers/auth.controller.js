@@ -95,7 +95,8 @@ export const getAuthUser = async (req, res) => {
     const loggedInUserId = req.user._id;
     const authUser = await User.findOne({ _id: loggedInUserId })
       .populate("friends")
-      .populate("friendRequests");
+      .populate("friendRequests")
+      .select("-password");
     res.status(200).json(authUser);
   } catch (error) {
     console.log("Error while fetching the auth User details", error.message);

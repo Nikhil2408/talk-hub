@@ -9,7 +9,11 @@ const Friends = () => {
 
   return (
     <div className="flex flex-col overflow-auto flex-1">
-      {filteredUsers &&
+      {filteredUsers.length === 0 ? (
+        <div className="flex justify-center mt-10">
+          <p>Add friends to list them here</p>
+        </div>
+      ) : (
         filteredUsers.map((user, index) => {
           return (
             <User
@@ -19,7 +23,8 @@ const Friends = () => {
               isFriend={true}
             />
           );
-        })}
+        })
+      )}
     </div>
   );
 };
