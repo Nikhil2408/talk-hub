@@ -1,7 +1,6 @@
 import Conversation from "../models/conversation.model.js";
 import Message from "../models/message.model.js";
 import { getReceiverSocketId, io } from "../socket/socket.js";
-import mongoose from "mongoose";
 
 export const sendMessage = async (req, res) => {
   try {
@@ -49,15 +48,14 @@ export const sendMessage = async (req, res) => {
 export const getMessages = async (req, res) => {
   const currentUserId = req.user._id;
   const activeScreenUserId = req.params.id;
-  //   const daysRange = parseInt(req.params.daysRange);
+  const currentDateValue = parseInt(req.params.currentDateValue);
+  const daysRange = parseInt(req.params.daysRange);
 
-  //   const currentDate = new Date();
-  //   const currentDateUTC = new Date(currentDate.toISOString());
+  const currentDate = new Date();
+  currentDate.setDate(currentDate.getDate() - currentDateValue);
 
-  //   // Calculate the date 2 days ago in UTC
-  //   const previousDate = new Date(currentDate);
-  //   previousDate.setUTCDate(currentDate.getUTCDate() - daysRange);
-  //   const previousDateUTC = new Date(previousDate.toISOString());
+  const previousDate = new Date();
+  previousDate.setDate(previousDate.getDate() - daysRange);
 
   const conversation = await Conversation.findOne({
     participants: { $all: [currentUserId, activeScreenUserId] },
@@ -71,11 +69,14 @@ export const getMessages = async (req, res) => {
 
   const messages = await Message.find({
     conversationId: conversation._id,
-    // createdDate: {
-    //   $gte: previousDateUTC,
-    // },
+    createdAt: {
+      $gte: previousDate,
+      $lte: currentDate,
+    },
   });
+
   res.status(200).json({
     messages,
+    totalMessages: conversation.messages.length,
   });
 };
