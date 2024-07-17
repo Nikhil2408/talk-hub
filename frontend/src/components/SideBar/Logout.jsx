@@ -3,10 +3,13 @@ import toast from "react-hot-toast";
 import { TbLogout2 } from "react-icons/tb";
 import BeatLoader from "react-spinners/BeatLoader";
 import { useAuthContext } from "../../../context/AuthContext";
+import { useUserContext } from "../../../context/UserContext";
 
 const Logout = () => {
   const [isLoading, setIsLoading] = useState(false);
   const { setAuthUser } = useAuthContext();
+  const { setUsers, setSelectedConversation, setMessages, setFilteredUsers } =
+    useUserContext();
 
   async function logoutHandler() {
     setIsLoading(true);
@@ -20,6 +23,10 @@ const Logout = () => {
       localStorage.removeItem("currentUser");
       setAuthUser(null);
       toast.success(response.message);
+      setUsers([]);
+      setSelectedConversation(null);
+      setMessages([]);
+      setFilteredUsers([]);
     } catch (error) {
       toast.error("Error while logging out, please try again!");
     } finally {

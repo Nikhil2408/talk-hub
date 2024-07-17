@@ -78,14 +78,12 @@ const Messages = () => {
       {!isLoading && messages.length === 0 && <StartConversation />}
       {!isLoading && messages.length > 0 && (
         <div className="flex flex-col">
-          <div className="self-center mt-4 flex items-center">
-            {!allMessagesFetched && (
-              <>
-                <span>Scroll to top to load more messages</span>
-                <MdOutlineRefresh className="ml-2 text-xl" />
-              </>
-            )}
-          </div>
+          {!allMessagesFetched && (
+            <div className="self-center mt-20 flex items-center">
+              <span>Scroll to top to load more messages</span>
+              <MdOutlineRefresh className="ml-2 text-xl" />
+            </div>
+          )}
           <div>
             {messages.map((chatMessage) => {
               return (
